@@ -1,9 +1,9 @@
 // f(data) => ui
 
-//library that only accepts numbers
-//button for fetching random numb from api
+//This is like Dark Souls but worse.
+
 import React from "react";
-// var validate = require("validate.js"); // handles input validation
+const url = "http://localhost:8000/";
 
 class App extends React.Component {
   //Main function
@@ -11,22 +11,37 @@ class App extends React.Component {
     super(props);
 
     this._handleChange = this._handleChange.bind(this);
-    this.state = { value: "", regexp: /^[0-9\b]+$/ };
+    this._handleClick = this._handleClick.bind(this);
+    this.state = { value: "", random: "", regexp: /^[0-9\b]+$/ };
   }
   _handleChange = (x) => {
     // class method
     // set the state => trigger ui change
     let value = x.target.value;
-
-    // if (value.length === 0) {
-    //   this.setState({ [x.target.name]: value });
-    // }
-    // if (!Number(value)) {
-    //   return;
-    // }
     if (value === "" || this.state.regexp.test(value)) {
       this.setState({ [x.target.name]: value });
     }
+  };
+
+  _handleClick = (e) => {
+    e.preventDefault();
+    console.log("Button clicked...");
+
+    var x = 10;
+    var y = 1;
+    var value = { high: x, low: y };
+
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(value),
+    })
+      .then((response) => response.json())
+      .then((value) => this.setState({ value }));
   };
 
   render() {
@@ -36,45 +51,30 @@ class App extends React.Component {
         <input
           // type="number"
           name="value"
+          id="random"
           placeholder="Enter n for nth Fibonacci digit"
           value={this.state.value}
           onChange={this._handleChange}
         />
+        <button onClick={this._handleClick}>Random Number</button>
         <p>{fibonacci(this.state.value)}</p>
+        <p>{fibonacci(this.state.random)}</p>
       </form>
     );
   }
 }
 
 function fibonacci(n) {
-  // n cannot be 1
-  // n cannot be 0
-
   if (n.length === 0) {
     return;
   }
-
-  // parseInt(n);
   if (n < 0) {
     return;
   }
-
   if (n === 0) {
     return 1;
   }
-  // what line of the comments relate to line 79
-
-  // reject negative numbers inputs
-
-  // what happens when you input different strings into line 74.
-
-  // any integer > 1 works
-  // in constructor: this.state.value = 1 works
-  // in _handleChange method: event.target.value = 1 does not work, why is it different
-
-  // figure out what is the difference between 55 from 53-54.
   if (n === 1) {
-    console.log("you are here");
     return 1;
   }
   return fibonacci(n - 1) + fibonacci(n - 2); // Mathematical operations convert values to numbers.
