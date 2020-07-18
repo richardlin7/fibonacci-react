@@ -9,29 +9,38 @@ class App extends React.Component {
   //Main function
   constructor(props) {
     super(props);
-    this.state = { value: 0 };
 
     this._handleChange = this._handleChange.bind(this);
+    this.state = { value: "", regexp: /^[0-9\b]+$/ };
   }
-  _handleChange(event) {
+  _handleChange = (x) => {
     // class method
     // set the state => trigger ui change
-    // console.log(typeof event.target.value);
-    this.setState({ value: event.target.value });
-  }
+    let value = x.target.value;
+
+    // if (value.length === 0) {
+    //   this.setState({ [x.target.name]: value });
+    // }
+    // if (!Number(value)) {
+    //   return;
+    // }
+    if (value === "" || this.state.regexp.test(value)) {
+      this.setState({ [x.target.name]: value });
+    }
+  };
 
   render() {
     return (
       <form>
-        <label>
-          <input
-            id="input"
-            placeholder="Enter n for nth Fibonacci digit"
-            value={this.state.value}
-            onChange={this._handleChange}
-          />
-          <p>{fibonacci(this.state.value)}</p>
-        </label>
+        <label></label>
+        <input
+          // type="number"
+          name="value"
+          placeholder="Enter n for nth Fibonacci digit"
+          value={this.state.value}
+          onChange={this._handleChange}
+        />
+        <p>{fibonacci(this.state.value)}</p>
       </form>
     );
   }
