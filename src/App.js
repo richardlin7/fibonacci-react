@@ -12,13 +12,13 @@ class App extends React.Component {
 
     this._handleChange = this._handleChange.bind(this);
     this._handleClick = this._handleClick.bind(this);
-    this.state = { value: "", random: "", regexp: /^[0-9\b]+$/ };
+    this.state = { value: "" }; // this.state alterations makes react refresh ui, ONLY PUT WHAT IS NECESSARY OR IT SLOWS YOU DOWN (as a developer).
   }
   _handleChange = (x) => {
     // class method
     // set the state => trigger ui change
     let value = x.target.value;
-    if (value === "" || this.state.regexp.test(value)) {
+    if (value === "" || /^[0-9\b]+$/.test(value)) {
       this.setState({ [x.target.name]: value });
     }
   };
@@ -58,7 +58,6 @@ class App extends React.Component {
         />
         <button onClick={this._handleClick}>Random Number</button>
         <p>{fibonacci(this.state.value)}</p>
-        <p>{fibonacci(this.state.random)}</p>
       </form>
     );
   }
